@@ -18,14 +18,14 @@ const db = knex(config);
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
-    res.status(200).send('Welcome to Big Easy Events');
+    res.status(200).send('Welcome to Big Easy events');
 });
 
 // ********** User **********
 // Get all users
 app.get('/users', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const users = await knex('Users').select('*');
+        const users = await knex('users').select('*');
         res.json(users);
     } catch (error) {
         next(error);
@@ -35,7 +35,7 @@ app.get('/users', async (req: Request, res: Response, next: NextFunction) => {
 // Get user by ID
 app.get('/users/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = await knex('Users').where('id', req.params.id).first();
+        const user = await knex('users').where('id', req.params.id).first();
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -48,7 +48,7 @@ app.get('/users/:id', async (req: Request, res: Response, next: NextFunction) =>
 // Create new user
 app.post('/users', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const [id] = await knex('Users').insert(req.body).returning('id');
+        const [id] = await knex('users').insert(req.body).returning('id');
         res.status(201).json({ id });
     } catch (error) {
         next(error);
@@ -58,7 +58,7 @@ app.post('/users', async (req: Request, res: Response, next: NextFunction) => {
 // Update user by ID
 app.put('/users/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const updated = await knex('Users').where('id', req.params.id).update(req.body);
+        const updated = await knex('users').where('id', req.params.id).update(req.body);
         if (!updated) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -71,7 +71,7 @@ app.put('/users/:id', async (req: Request, res: Response, next: NextFunction) =>
 // Delete user by ID
 app.delete('/users/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const deleted = await knex('Users').where('id', req.params.id).del();
+        const deleted = await knex('users').where('id', req.params.id).del();
         if (!deleted) {
             return res.status(404).json({ error: 'User not found' });
         }
@@ -81,18 +81,18 @@ app.delete('/users/:id', async (req: Request, res: Response, next: NextFunction)
     }
 });
 
-// ********** Venues **********
+// ********** venues **********
 // Get all venues
 app.get('/venues', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const venues = await knex('Venues').select('*');
+        const venues = await knex('venues').select('*');
         res.json(venues);
     } catch (error) {
         next(error);
     }
 });
 
-// Similar routes for Venues, Organizers, Events...
+// Similar routes for venues, Organizers, events...
 
 // Error Handlers
 

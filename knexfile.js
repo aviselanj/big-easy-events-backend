@@ -1,22 +1,20 @@
-// knexfile.js
-require('dotenv').config();
+require("dotenv").config(); 
 
 module.exports = {
     development: {
-        client: "pg",
+        client: 'pg',
         connection: {
             host: process.env.SUPABASE_HOST,
             user: process.env.SUPABASE_USER,
             password: process.env.SUPABASE_PASSWORD,
             database: "postgres",
         },
-        pool:{min:0, max:7},
         migrations: {
-            directory: './db/migrations',
+            tableName: 'knex_migrations', 
+            directory: './db/migrations'
         },
         seeds: {
-            directory: './db/seeds',
+            directory: './db/seeds'
         },
     },
-    
 };
