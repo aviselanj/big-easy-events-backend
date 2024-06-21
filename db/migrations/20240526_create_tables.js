@@ -8,6 +8,7 @@ exports.up = function (knex) {
             table.timestamp('created_at').defaultTo(knex.fn.now());
             table.timestamp('updated_at').defaultTo(knex.fn.now());
         })
+        
         .then(function () {
             return knex.schema.createTable('venues', function (table) {
                 table.increments('venue_id').primary();
@@ -44,6 +45,7 @@ exports.up = function (knex) {
                 table.timestamp('created_at').defaultTo(knex.fn.now());
                 table.timestamp('updated_at').defaultTo(knex.fn.now());
             });
+            
         });
 };
 
