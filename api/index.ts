@@ -1,19 +1,30 @@
-import express, { Request, Response, NextFunction } from 'express';
-import dotenv from 'dotenv';
-import knex from 'knex';
-
-
-dotenv.config();
+import { NextFunction } from "connect";
+import express, { Request, Response } from "express";
+import cors from "cors";
 
 const app = express();
+
+app.use(
+    cors({
+        origin: [
+            "http://localhost:3000",
+            "https://big-easy-events-remix.vercel.app",
+            "*"
+        ],
+    })
+);
+
 const port = 4000;
+require("dotenv").config();
+
+app.use(express.json());
 
 const environment = process.env.NODE_ENV || 'development';
 
 
 const knexConfig = require('../knexfile');
 const config = knexConfig[environment];
-const db = knex(config);
+
 
 app.use(express.json());
 
