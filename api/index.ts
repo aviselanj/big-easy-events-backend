@@ -78,65 +78,6 @@ app.delete('/users/:id', async (req: Request, res: Response) => {
     }
 });
 
-// ********** Categories **********
-// Get all categories
-app.get('/categories', async (req: Request, res: Response) => {
-    try {
-        const categories = await db('categories').select('*');
-        res.json(categories);
-    } catch (error) {
-        res.status(400).json({ error: (error as Error).message });
-    }
-});
-
-// Get category by ID
-app.get('/categories/:id', async (req: Request, res: Response) => {
-    try {
-        const category = await db('categories').where('category_id', req.params.id).first();
-        if (!category) {
-            return res.status(404).json({ error: 'Category not found' });
-        }
-        res.json(category);
-    } catch (error) {
-        res.status(400).json({ error: (error as Error).message });
-    }
-});
-
-// Create new category
-app.post('/categories', async (req: Request, res: Response) => {
-    try {
-        const [id] = await db('categories').insert(req.body).returning('category_id');
-        res.status(201).json({ id });
-    } catch (error) {
-        res.status(400).json({ error: (error as Error).message });
-    }
-});
-
-// Update category by ID
-app.put('/categories/:id', async (req: Request, res: Response) => {
-    try {
-        const updated = await db('categories').where('category_id', req.params.id).update(req.body);
-        if (!updated) {
-            return res.status(404).json({ error: 'Category not found' });
-        }
-        res.json({ message: 'Category updated successfully' });
-    } catch (error) {
-        res.status(400).json({ error: (error as Error).message });
-    }
-});
-
-// Delete category by ID
-app.delete('/categories/:id', async (req: Request, res: Response) => {
-    try {
-        const deleted = await db('categories').where('category_id', req.params.id).del();
-        if (!deleted) {
-            return res.status(404).json({ error: 'Category not found' });
-        }
-        res.json({ message: 'Category deleted successfully' });
-    } catch (error) {
-        res.status(400).json({ error: (error as Error).message });
-    }
-});
 
 // ********** Venues **********
 // Get all venues
