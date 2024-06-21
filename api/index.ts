@@ -1,45 +1,31 @@
-import { NextFunction } from "connect";
-import express, { Request, Response } from "express";
-import cors from "cors";
+import express, { Request, Response, NextFunction } from 'express';
+import dotenv from 'dotenv';
+import knex from 'knex';
+
+dotenv.config();
 
 const app = express();
-
-app.use(
-    cors({
-        origin: [
-            "http://localhost:3000",
-            "https://big-easy-events-remix.vercel.app",
-            "*"
-        ],
-    })
-);
-
 const port = 4000;
-require("dotenv").config();
-
-app.use(express.json());
 
 const environment = process.env.NODE_ENV || 'development';
-
-
 const knexConfig = require('../knexfile');
 const config = knexConfig[environment];
-
+const db = knex(config);
 
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
-    res.status(200).send('Welcome to Big Easy events');
+    res.status(200).send('Welcome to Big Easy Events');
 });
-
 // ********** User **********
 // Get all users
-app.get('/users', async (req: Request, res: Response, next: NextFunction) => {
+app.get('/users', async (req, res) => {
     try {
-        const users = await knex('users').select('*');
+        const users = await db('users').select('*');
         res.json(users);
     } catch (error) {
-        next(error);
+        const err = error as Error;
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -52,7 +38,8 @@ app.get('/users/:id', async (req: Request, res: Response, next: NextFunction) =>
         }
         res.json(user);
     } catch (error) {
-        next(error);
+        const err = error as Error;
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -62,7 +49,8 @@ app.post('/users', async (req: Request, res: Response, next: NextFunction) => {
         const [id] = await knex('users').insert(req.body).returning('id');
         res.status(201).json({ id });
     } catch (error) {
-        next(error);
+        const err = error as Error;
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -75,7 +63,8 @@ app.put('/users/:id', async (req: Request, res: Response, next: NextFunction) =>
         }
         res.json({ message: 'User updated successfully' });
     } catch (error) {
-        next(error);
+        const err = error as Error;
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -88,7 +77,8 @@ app.delete('/users/:id', async (req: Request, res: Response, next: NextFunction)
         }
         res.json({ message: 'User deleted successfully' });
     } catch (error) {
-        next(error);
+        const err = error as Error;
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -99,7 +89,8 @@ app.get('/venues', async (req: Request, res: Response, next: NextFunction) => {
         const venues = await knex('venues').select('*');
         res.json(venues);
     } catch (error) {
-        next(error);
+        const err = error as Error;
+        res.status(400).json({ error: err.message });
     }
 });
 
@@ -111,7 +102,8 @@ app.get('/venues', async (req: Request, res: Response, next: NextFunction) => {
 app.use((req: Request, res: Response, next: NextFunction) => {
     const error = new Error('404 NOT FOUND: You are so lost!');
     res.status(404);
-    next(error);
+    const err = error as Error;
+    res.status(400).json({ error: err.message });
 });
 
 // General error handler
