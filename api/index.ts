@@ -1,4 +1,5 @@
-import express, { Request, Response, NextFunction } from 'express';
+import { NextFunction } from "connect";
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import knex from 'knex';
 
@@ -7,8 +8,9 @@ dotenv.config();
 const app = express();
 const port = 4000;
 
-const environment = process.env.NODE_ENV || 'development';
-const knexConfig = require('../knexfile');
+const environment = 'development';
+console.log(`Using environment: ${environment}`);
+import knexConfig from '../knexfile';
 const config = knexConfig[environment];
 const db = knex(config); 
 
