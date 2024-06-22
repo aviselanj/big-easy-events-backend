@@ -281,3 +281,5 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+// Initialize knex with the correct environment configuration
+export default db;
