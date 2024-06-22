@@ -95,7 +95,7 @@ app.get('/venues/:id', async (req: Request, res: Response) => {
     try {
         const venue = await db('venues').where('venue_id', req.params.id).first();
         if (!venue) {
-            return res.status(404).json({ error: 'Venue not found' });
+            return res.status(404).json({ error: 'Venues not found' });
         }
         res.json(venue);
     } catch (error) {
