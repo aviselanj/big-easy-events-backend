@@ -30,4 +30,8 @@
   "bugs": {
     "url": "https://github.com/aviselanj/big-easy-events-backend/issues"
   },
-  "homepage": "https://github.com/aviselanj/big-easy-events-backend#readme"}
+  "homepage": "https://github.com/aviselanj/big-easy-events-backend#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.17"
+  }
+}

@@ -10,7 +10,7 @@ const port = 4000;
 const environment = process.env.NODE_ENV || 'development';
 const knexConfig = require('../knexfile');
 const config = knexConfig[environment];
-const db = knex(config);
+const db = knex(config); 
 
 app.use(express.json());
 
@@ -282,4 +282,3 @@ app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 // Initialize knex with the correct environment configuration
-export default db;
