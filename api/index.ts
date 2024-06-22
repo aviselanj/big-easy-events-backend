@@ -2,10 +2,12 @@ import { NextFunction } from "connect";
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import knex from 'knex';
-
+import cors from 'cors';
+const app = express();
+app.use(cors());
 dotenv.config();
 
-const app = express();
+
 const port = 4000;
 
 const environment = 'development';
@@ -283,4 +285,3 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
-// Initialize knex with the correct environment configuration
